@@ -540,8 +540,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWidth: 0
   startHeight: 0
-  targetWidth: 500
-  targetHeight: 500
+  targetWidth: 1000
+  targetHeight: 1000
 --- !u!4 &892374378
 Transform:
   m_ObjectHideFlags: 0
