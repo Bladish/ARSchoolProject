@@ -24,7 +24,7 @@ public class ARTapToPlaceObject : MonoBehaviour
     private Vector3 indicatorLoc;
 
     GameObject spawnedChicken;
-    public GameObject spawnedFood;
+    GameObject spawnedFood;
     public GameObject food;
 
     void Start()
@@ -45,18 +45,14 @@ public class ARTapToPlaceObject : MonoBehaviour
 
         if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && chickens.Count == 1)
         {
-            PlaceFood();
+            PlaceFood();           
         }
 
         if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             PopConfetti();
         } 
-        
-        if(foods.Count > 0)
-        {
-            spawnedChicken.transform.position = spawnedFood.transform.position;
-        }
+       
     }
 
     private void PlaceObject()
@@ -68,7 +64,18 @@ public class ARTapToPlaceObject : MonoBehaviour
     private void PlaceFood()
     {
         spawnedFood = Instantiate(food, placementPose.position, placementPose.rotation);
-        foods.Add(spawnedFood);
+        ChickenWalkTowardsFood();
+    }
+
+    private void ChickenWalkTowardsFood()
+    {
+        spawnedChicken.transform.LookAt(spawnedFood.transform.position);
+        EatFood();      
+    }
+
+    private void EatFood()
+    {
+        StartCoroutine("Delay");        
     }
 
     private void PopConfetti()
@@ -107,5 +114,12 @@ public class ARTapToPlaceObject : MonoBehaviour
         }
     }
 
+
+    public IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
+        spawnedChicken.transform.position = spawnedFood.transform.position;
+        Destroy(spawnedFood);
+    }
 
 }

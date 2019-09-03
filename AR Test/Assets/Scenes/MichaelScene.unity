@@ -1100,7 +1100,9 @@ MonoBehaviour:
   placementIndicator: {fileID: 1795629008}
   Confetti: {fileID: 19817552, guid: eeb10f3a038431240a6690043924ec2e, type: 3}
   ARCamera: {fileID: 150613612}
-  floor: {fileID: 4905730042005935102, guid: 6e9957fab9769f14594d03ede64daced, type: 3}
+  chickens: []
+  foods: []
+  food: {fileID: 4352864466626022993, guid: 51ee825714265f24696aa09b8276e644, type: 3}
 --- !u!1 &1467351080
 GameObject:
   m_ObjectHideFlags: 0
