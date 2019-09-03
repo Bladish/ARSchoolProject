@@ -16,6 +16,17 @@ public class ARTapToPlaceObject : MonoBehaviour
     private Pose placementPose;
 
     private bool placementPoseIsValid = false;
+    private bool chickenPlaced;
+    public List<GameObject> chickens;
+    public List<GameObject> foods;
+
+    private Vector3 chickenLoc;
+    private Vector3 indicatorLoc;
+
+    GameObject spawnedChicken;
+    public GameObject spawnedFood;
+    public GameObject food;
+
     void Start()
     {
         ARRaycast = FindObjectOfType<ARRaycastManager>();
@@ -26,15 +37,38 @@ public class ARTapToPlaceObject : MonoBehaviour
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
-
-        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        
+        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && chickens.Count == 0)
         {
             PlaceObject();
         }
+
+        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && chickens.Count == 1)
+        {
+            PlaceFood();
+        }
+
         if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             PopConfetti();
+        } 
+        
+        if(foods.Count > 0)
+        {
+            spawnedChicken.transform.position = spawnedFood.transform.position;
         }
+    }
+
+    private void PlaceObject()
+    {
+        spawnedChicken = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+        chickens.Add(spawnedChicken);
+    }
+
+    private void PlaceFood()
+    {
+        spawnedFood = Instantiate(food, placementPose.position, placementPose.rotation);
+        foods.Add(spawnedFood);
     }
 
     private void PopConfetti()
@@ -42,9 +76,6 @@ public class ARTapToPlaceObject : MonoBehaviour
         Instantiate(Confetti, placementPose.position, placementPose.rotation);
     }
 
-    private void PlaceObject() {
-        Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
-    }
 
     private void UpdatePlacementIndicator() {
         if (placementPoseIsValid)
